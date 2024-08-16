@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'GUI.ui'
+## Form generated from reading UI file 'GUIgYXLWZ.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.2
 ##
@@ -29,7 +29,7 @@ class Ui_Dialog(object):
         self.comboBox.setGeometry(QRect(10, 80, 101, 22))
         self.label_2 = QLabel(Dialog)
         self.label_2.setObjectName(u"label_2")
-        self.label_2.setGeometry(QRect(30, 50, 51, 31))
+        self.label_2.setGeometry(QRect(10, 50, 101, 31))
         self.comboBox_2 = QComboBox(Dialog)
         self.comboBox_2.setObjectName(u"comboBox_2")
         self.comboBox_2.setGeometry(QRect(10, 140, 101, 22))
@@ -42,6 +42,12 @@ class Ui_Dialog(object):
         self.label_4 = QLabel(Dialog)
         self.label_4.setObjectName(u"label_4")
         self.label_4.setGeometry(QRect(10, 220, 111, 20))
+        self.comboBox_3 = QComboBox(Dialog)
+        self.comboBox_3.setObjectName(u"comboBox_3")
+        self.comboBox_3.setGeometry(QRect(120, 80, 101, 22))
+        self.label_5 = QLabel(Dialog)
+        self.label_5.setObjectName(u"label_5")
+        self.label_5.setGeometry(QRect(120, 50, 101, 31))
 
         self.retranslateUi(Dialog)
 
@@ -52,9 +58,10 @@ class Ui_Dialog(object):
         Dialog.setWindowTitle(QCoreApplication.translate("Dialog", u"Dialog", None))
         self.pushButton.setText(QCoreApplication.translate("Dialog", u"Abrir case", None))
         self.label.setText(QCoreApplication.translate("Dialog", u"Default", None))
-        self.label_2.setText(QCoreApplication.translate("Dialog", u"Corriente", None))
+        self.label_2.setText(QCoreApplication.translate("Dialog", u"Corriente de proceso", None))
         self.label_3.setText(QCoreApplication.translate("Dialog", u"Propiedades", None))
         self.pushButton_2.setText(QCoreApplication.translate("Dialog", u"Mostrar propiedad ", None))
         self.label_4.setText(QCoreApplication.translate("Dialog", u"Default", None))
+        self.label_5.setText(QCoreApplication.translate("Dialog", u"Corriente de servicio", None))
     # retranslateUi
 
