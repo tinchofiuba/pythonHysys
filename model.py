@@ -1,30 +1,42 @@
 
 from PyQt5.QtWidgets import QApplication, QDialog
+from PyQt5.QtCore import pyqtSignal
 import sys
 import os
 import json
-from hysys2Python import abrir
+from hysys2Python import AspenHysys
+hsc=AspenHysys()
 
-class modelo():
+class modelo:
     def __init__(self):
         #creo una señalpara vincularme con la UI
-        case="s1"
-        corrientes="s2"
-        propiedades="s3"
+        #defino una señal del tipo pyqsignalque 
+        self.apertura = pyqtSignal()
 
     def abrirCase_m(self):
         #en función de la dirección seleccionada en la GUI (guardado en un json) abro el case
         #leo jsonHysys.json y lo llego a un diccionario
         self.jsonModel = json.load(open("json/jsonHysys.json"))
-        self.dirCase=self.jsonModel["direccionCase"]
-        abrir(self.dirCase)
+        self.dirCase=self.jsonModel["ConfigCase"]["direccionCase"]
+        self.abrir=self.jsonModel["ConfigCase"]["abrirCase"]
+        self.aperturaHsc=hsc.abrir(self.dirCase,self.abrir)
+        if self.aperturaHsc==1:
+            print("case abierto")
+            self.mStreams,self.eStreams=hsc.mostrarCorrientes() #me devuelve las corrientes
+            #las guardo en el json
+            self.jsonModel["corrientes"]=self.mStreams
+            #guardo el json
+            with open("json/jsonHysys.json","w") as file:
+                json.dump(self.jsonModel,file)
+        else:
+            print("case no abierto")
 
     def mostrarCorrientes(self):
         print("mostrar corrientes")
 
     def mostrarPropiedades(self):
         print("mostrar propiedad")
-
+'''
 if __name__ == "__main__":
     app = QApplication()
     Dialog = QDialog()
@@ -33,4 +45,4 @@ if __name__ == "__main__":
     Dialog.show()
     #aplico las modificaciones de modelo gui
     modelo=modelo()
-    sys.exit(app.exec_())
+    sys.exit(app.exec_())'''

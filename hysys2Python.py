@@ -1,31 +1,45 @@
 import os
 import win32com.client as win32
-hysys = win32.Dispatch("HYSYS.Application")
-hy_case = hysys.Application.ActiveDocument
+import logging
 
-def abrir(direccion:str):
-    hy_case = hysys.Application.ActiveDocument
-    if hy_case == None:
-        hy_case = hysys.SimulationCases.Open(direccion)
-        hy_case.Visible = 0
-    
+class AspenHysys:
+    def __init__(self):
+        self.hysys = win32.Dispatch("HYSYS.Application")
+        self.hy_case = self.hysys.Application.ActiveDocument
+
+    def abrir(self,direccion,mostrar):
+        try:
+            hy_case = self.hysys.Application.ActiveDocument
+            if hy_case == None:
+                self.hy_case = self.hysys.SimulationCases.Open(direccion)
+                self.hy_case.Visible = mostrar
+                return 1
+        except:
+            #me fijo el formato cual es:
+            formato=direccion.split(".")[1]
+            if formato=="hsc":
+                print("Surgió un problema al abrir el ")
+            elif formato!="hsc":
+                print("Formato no soportado")
+            elif formato=="":
+                print("Archivo no seleccionado!")
+            else:
+                print("error desconocido, suerte!")
+            return 0
+    def mostrarCorrientes(self):
+        self.hysys_ms = self.hy_case.Flowsheet.MaterialStreams
+        self.hysys_es = self.hy_case.Flowsheet.EnergyStreams
+        if self.hysys_ms.Count > 0:
+            self.mass_streams = [self.hysys_ms.Item(i).Name for i in range(0, self.hysys_ms.Count)]
+        else:
+            self.mass_streams = None
+        if self.hysys_es.Count > 0:
+            self.energy_streams = [self.hysys_es.Item(i).Name for i in range(0, self.hysys_es.Count)]
+        else:
+            self.energy_streams = None
+        return self.mass_streams, self.energy_streams
+
 '''
-path = "case.hsc"
-hysys_path = os.path.abspath(path)
-
-hy_case = hysys.Application.ActiveDocument
-if hy_case == None:
-    hy_case = hysys.SimulationCases.Open(hysys_path)
-
-hysys_f = hy_case.Flowsheet
-hysys_ms = hysys_f.MaterialStreams
-hysys_es = hysys_f.EnergyStreams
-nStreams=hysys_ms.Count
-nameStreams=[hysys_ms.Item(i).Name for i in range(0,nStreams)]
-print(hysys_ms.Item(nameStreams[0]).MolarFlow.GetValue("kgmole/h"))
-hysys_ms.Item(nameStreams[0]).MolarFlow.setValue(1000,"kgmole/h") #reasigno valores a la corriente
-print(hysys_ms.Item(nameStreams[0]).MolarFlow.GetValue("kgmole/h"))
-
 stream_mf = hysys_ms.Item("101").MolarFlow.getValue("kgmole/h")
 stream_p = hysys_ms.Item("101").Pressure.getValue("bar")
 print(hysys_ms.Item(0).Name)
