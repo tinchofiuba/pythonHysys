@@ -1,18 +1,21 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'GUIgYXLWZ.ui'
+## Form generated from reading UI file 'GUIcjCyCN.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide2.QtCore import *
-from PySide2.QtGui import *
-from PySide2.QtWidgets import *
-
-
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+import json
+import sys
+#importo el metodo abrirCase desde model.py
+from model import modelo
+m= modelo()
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         if not Dialog.objectName():
@@ -21,6 +24,7 @@ class Ui_Dialog(object):
         self.pushButton = QPushButton(Dialog)
         self.pushButton.setObjectName(u"pushButton")
         self.pushButton.setGeometry(QRect(10, 10, 81, 31))
+        self.pushButton.clicked.connect(self.abrirCase)
         self.label = QLabel(Dialog)
         self.label.setObjectName(u"label")
         self.label.setGeometry(QRect(100, 16, 341, 20))
@@ -41,18 +45,43 @@ class Ui_Dialog(object):
         self.pushButton_2.setGeometry(QRect(10, 180, 121, 31))
         self.label_4 = QLabel(Dialog)
         self.label_4.setObjectName(u"label_4")
-        self.label_4.setGeometry(QRect(10, 220, 111, 20))
-        self.comboBox_3 = QComboBox(Dialog)
-        self.comboBox_3.setObjectName(u"comboBox_3")
-        self.comboBox_3.setGeometry(QRect(120, 80, 101, 22))
-        self.label_5 = QLabel(Dialog)
-        self.label_5.setObjectName(u"label_5")
-        self.label_5.setGeometry(QRect(120, 50, 101, 31))
-
+        self.label_4.setGeometry(QRect(50, 220, 61, 20))
         self.retranslateUi(Dialog)
-
+        #abro el json en la carpeta json de nombre jsonHysys.json
+        jsonGUI=json.load(open("json/jsonHysys.json"))
+        #############################################
+        #configuro los botones y los textos de la GUI
+        #############################################
+        if self.label.text() == "Default":
+            self.label.setText(jsonGUI["direccionCase"])
+        else:
+            self.label.setText(jsonGUI["direccionCase"])
+        #del primer combobox agarro el texto que está seteado
+        #si está vacío, agrego el nombre de la corriente de proceso
+        #si no, lo cambio por el nombre de la corriente de proceso
+        if self.comboBox.currentText()=="":
+            self.comboBox.addItem(jsonGUI["corrienteProceso"]["nombre"])
+        else:
+            self.comboBox.setItemText(0,jsonGUI["corrienteProceso"]["nombre"])
+        if self.comboBox_2.currentText() == "":
+            self.comboBox_2.addItem(jsonGUI["corrienteServicio"]["nombre"])
+        else:
+            self.comboBox_2.setItemText(0,jsonGUI["corrienteServicio"]["nombre"])
+        
         QMetaObject.connectSlotsByName(Dialog)
-    # setupUi
+
+    def abrirCase(self):
+        #abro una widget para seleccionar un archivo y extraer si direccion para abrirlo
+        self.dialog = QFileDialog()
+        self.dirCase=self.dialog.getOpenFileName()[0] #direccion del case que voy a abrir.
+        #guardo la direccion del case en un json
+        self.jsonGUI=json.load(open("json/jsonHysys.json"))
+        self.jsonGUI["direccionCase"]=self.dirCase
+        #guardo la direccion del case en un json
+        with open("json/jsonHysys.json","w") as file:
+            json.dump(self.jsonGUI,file)
+        m.abrirCase_m()
+
 
     def retranslateUi(self, Dialog):
         Dialog.setWindowTitle(QCoreApplication.translate("Dialog", u"Dialog", None))
@@ -62,6 +91,13 @@ class Ui_Dialog(object):
         self.label_3.setText(QCoreApplication.translate("Dialog", u"Propiedades", None))
         self.pushButton_2.setText(QCoreApplication.translate("Dialog", u"Mostrar propiedad ", None))
         self.label_4.setText(QCoreApplication.translate("Dialog", u"Default", None))
-        self.label_5.setText(QCoreApplication.translate("Dialog", u"Corriente de servicio", None))
     # retranslateUi
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    Dialog = QDialog()
+    ui = Ui_Dialog()
+    ui.setupUi(Dialog)
+    Dialog.show()
+    sys.exit(app.exec_())
 
