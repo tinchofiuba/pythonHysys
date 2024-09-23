@@ -4,7 +4,7 @@ from PyQt5.QtCore import pyqtSignal
 import sys
 import os
 import json
-from hysys2Python import AspenHysys
+from hysys2Python import AspenHysys 
 hsc=AspenHysys()
 
 class modelo:
@@ -21,7 +21,6 @@ class modelo:
         self.abrir=self.jsonModel["ConfigCase"]["abrirCase"]
         self.aperturaHsc=hsc.abrir(self.dirCase,self.abrir)
         if self.aperturaHsc==1:
-            print("case abierto")
             self.mStreams,self.eStreams=hsc.mostrarCorrientes() #me devuelve las corrientes
             #las guardo en el json
             self.jsonModel["corrientes"]=self.mStreams
@@ -30,9 +29,7 @@ class modelo:
                 json.dump(self.jsonModel,file)
         else:
             print("case no abierto")
-
-    def mostrarCorrientes(self):
-        print("mostrar corrientes")
+        return self.mStreams,self.eStreams
 
     def mostrarPropiedades(self):
         print("mostrar propiedad")

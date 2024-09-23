@@ -1,1 +1,1 @@
-{"ConfigCase": {"abrirCase": 0, "direccionCase": "C:/Users/tin10/repos/pythonHysys/case.hsc"}, "corrienteProceso": {"nombre": "11", "valor": ""}, "corrienteServicio": {"nombre": "22", "valor": ""}, "corrientes": ["1", "3"]}
+{"ConfigCase": {"abrirCase": 1, "direccionCase": "C:/Users/tin10/repos/pythonHysys/case.hsc"}, "corrienteProceso": {"nombre": "11", "valor": ""}, "corrienteServicio": {"nombre": "22", "valor": ""}, "corrientes": ["1", "3"]}

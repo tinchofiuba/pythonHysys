@@ -37,6 +37,8 @@ class AspenHysys:
             self.energy_streams = [self.hysys_es.Item(i).Name for i in range(0, self.hysys_es.Count)]
         else:
             self.energy_streams = None
+        #obtengo la temperatura de la corriente
+        print(self.hysys_ms[self.mass_streams[0]].Temperature.GetValue("C"))
         return self.mass_streams, self.energy_streams
 
 '''

@@ -56,18 +56,23 @@ class Ui_Dialog(object):
         #abro una widget para seleccionar un archivo y extraer si direccion para abrirlo
         self.dialog = QFileDialog()
         self.dirCase=self.dialog.getOpenFileName()[0] #direccion del case que voy a abrir.
+        self.label.setText(self.dirCase)
         #guardo la direccion del case en un json
+        #si el checkbutton efsta clickeado guardo en el json guardo 1 sino 0
+        #guardo la direccion del case en un json
+        self.mStreams,self.eStreams=m.abrirCase_m()
+        self.comboBox.addItems(self.mStreams)
+
+
+    def updateUI(self):
         self.jsonGUI=json.load(open("json/jsonHysys.json"))
         self.jsonGUI["ConfigCase"]["direccionCase"]=self.dirCase
-        #si el checkbutton efsta clickeado guardo en el json guardo 1 sino 0
         if self.checkBox.isChecked():
             self.jsonGUI["ConfigCase"]["abrirCase"]=1
         else:
             self.jsonGUI["ConfigCase"]["abrirCase"]=0
-        #guardo la direccion del case en un json
         with open("json/jsonHysys.json","w") as file:
             json.dump(self.jsonGUI,file)
-        m.abrirCase_m()
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
