@@ -38,8 +38,8 @@ class AspenHysys:
         else:
             self.energy_streams = None
         #obtengo la temperatura de la corriente
-        print(self.hysys_ms[self.mass_streams[0]].Temperature.GetValue("C"))
-        return self.mass_streams, self.energy_streams
+        #print(self.hysys_ms[self.mass_streams[0]].Temperature.GetValue("C"))
+        return self.mass_streams,self.hysys_ms, self.energy_streams,self.hysys_es
 
 '''
 stream_mf = hysys_ms.Item("101").MolarFlow.getValue("kgmole/h")

@@ -13,16 +13,17 @@ class modelo:
         #defino una señal del tipo pyqsignalque 
         self.apertura = pyqtSignal()
 
-    def abrirCase_m(self):
+    def abrirCase_m(self,dirCase):
         #en función de la dirección seleccionada en la GUI (guardado en un json) abro el case
         #leo jsonHysys.json y lo llego a un diccionario
         self.jsonModel = json.load(open("json/jsonHysys.json"))
-        self.dirCase=self.jsonModel["ConfigCase"]["direccionCase"]
+        self.jsonModel["ConfigCase"]["direccionCase"]=dirCase
         self.abrir=self.jsonModel["ConfigCase"]["abrirCase"]
-        self.aperturaHsc=hsc.abrir(self.dirCase,self.abrir)
+        self.aperturaHsc=hsc.abrir(dirCase,self.abrir)
         if self.aperturaHsc==1:
-            self.mStreams,self.eStreams=hsc.mostrarCorrientes() #me devuelve las corrientes
+            self.mStreams,self.hysysM,self.eStreams,self.hysysE=hsc.mostrarCorrientes() #me devuelve las corrientes
             #las guardo en el json
+            print(self.hysysM[self.mStreams[0]].Temperature.GetValue("C"))
             self.jsonModel["corrientes"]=self.mStreams
             #guardo el json
             with open("json/jsonHysys.json","w") as file:

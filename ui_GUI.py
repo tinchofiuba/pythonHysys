@@ -60,7 +60,7 @@ class Ui_Dialog(object):
         #guardo la direccion del case en un json
         #si el checkbutton efsta clickeado guardo en el json guardo 1 sino 0
         #guardo la direccion del case en un json
-        self.mStreams,self.eStreams=m.abrirCase_m()
+        self.mStreams,self.eStreams=m.abrirCase_m(self.dirCase)
         self.comboBox.addItems(self.mStreams)
 
 
